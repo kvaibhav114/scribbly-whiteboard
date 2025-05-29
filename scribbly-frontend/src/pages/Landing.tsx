@@ -1,6 +1,7 @@
 import { useKeycloak } from "@react-keycloak/web";
 import scribblyLogo from "../assets/scribbly.png";
 import landingbackground from "../assets/landing-bg.jpg";
+import { LogIn, UserPlus } from "lucide-react";
 const Landing = () => {
   const { keycloak } = useKeycloak();
 
@@ -21,17 +22,22 @@ const Landing = () => {
         <p className="lead mb-4">
           A Space to Collaborate, Create, Communicate.
         </p>
-        <div className="d-flex gap-3">
-          <button className="btn btn-primary" onClick={() => keycloak.login()}>
-            Log In
-          </button>
-          <button
-            className="btn btn-outline-primary"
-            onClick={() => keycloak.register()}
-          >
-            Sign Up
-          </button>
-        </div>
+        <div className="d-flex flex-column flex-sm-row gap-3">
+            <button 
+              onClick={() => keycloak.login()}
+              className="btn btn-primary btn-lg px-4 py-3 d-flex align-items-center justify-content-center fw-bold"
+            >
+              <LogIn className="me-2" size={20} />
+              Get Started
+            </button>
+            <button
+              onClick={() => keycloak.register()}
+              className="btn btn-outline-light btn-lg px-4 py-3 d-flex btn-secondary align-items-center justify-content-center fw-bold"
+            >
+              <UserPlus className="me-2" size={20} />
+              Create Account
+            </button>
+          </div>
       </div>
 
       {/* Right Half */}
