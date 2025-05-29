@@ -1,6 +1,6 @@
 # Collaborative Whiteboard App 🎨
 
-A real-time collaborative whiteboard built with **React**, **TypeScript**, **Fabric.js**, **Socket.IO**, and **Keycloak**. It enables multiple authenticated users to draw together on a shared canvas, chat in real-time, and interact visually via cursor sharing.
+A real-time collaborative whiteboard built with **React**, **TypeScript**, **HTML Canvas API**, **Socket.IO**, and **Keycloak**. It enables multiple authenticated users to draw together on a shared canvas, chat in real-time, and interact visually via cursor sharing.
 
 ---
 
@@ -8,23 +8,28 @@ A real-time collaborative whiteboard built with **React**, **TypeScript**, **Fab
 
 ### Landing Page
 <!-- Add landing page screenshot here -->
-![Screenshot 2025-05-18 035443](https://github.com/user-attachments/assets/00250f5f-4d49-42e6-be5c-1b641b8bf01d)
+![Screenshot 2025-05-18 035443](https://github.com/user-attachments/assets/d4388aa7-39e8-433a-b409-2c9e905f3b8e)
+
+
+### Authentication
+![Screenshot 2025-05-18 173002](https://github.com/user-attachments/assets/7767ce83-e4bd-474c-9119-0b25cabd0b93)
 
 
 ### Dashboard
 <!-- Add dashboard screenshot here -->
-![image](https://github.com/user-attachments/assets/1d340076-0624-41eb-b767-5db7f4710cae)
+![Screenshot 2025-05-18 040543](https://github.com/user-attachments/assets/b6ba395b-53a9-4141-8b9d-6356125355e5)
+
 
 
 ### Drawing Canvas
 <!-- Add drawing canvas screenshot here -->
-![Screenshot 2025-05-18 035337](https://github.com/user-attachments/assets/1d18e4f0-d3bb-4369-a856-0228847e1e2e)
+![Screenshot 2025-05-18 173220](https://github.com/user-attachments/assets/f50d7991-0da5-4305-839c-8daa12d614b2)
+
 
 
 ### Multi-User Canvas Interaction
 <!-- Add multi-user canvas screenshot here -->
-![Screenshot 2025-05-18 034826](https://github.com/user-attachments/assets/4da8c512-4ff0-496d-bbb9-c9f7f5853a83)
-
+![Screenshot 2025-05-18 173422](https://github.com/user-attachments/assets/be951450-4b1e-4dc4-84fd-9db3b616140d)
 
 ---
 
@@ -58,7 +63,7 @@ A real-time collaborative whiteboard built with **React**, **TypeScript**, **Fab
 
 ## Tech Stack
 
-- **Frontend**: React, TypeScript, Bootstrap 5, Fabric.js  
+- **Frontend**: React, TypeScript, Bootstrap 5, HTML Canvas API 
 - **Backend**: Node.js, Express, Socket.IO  
 - **Auth**: Keycloak (via Docker container)  
 - **PDF Export**: jsPDF  
