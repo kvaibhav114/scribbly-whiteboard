@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { useKeycloak } from "@react-keycloak/web";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
 import { jsPDF } from "jspdf";
 import TopBar from "../components/TopBar";
@@ -13,17 +12,14 @@ interface Point {
   color: string;
   size: number;
 }
-
 interface Path {
   points: Point[];
 }
-
 interface Cursor {
   x: number;
   y: number;
   username: string;
 }
-
 interface DrawEvent {
   x: number;
   y: number;
@@ -32,17 +28,14 @@ interface DrawEvent {
   color: string;
   size: number;
 }
-
 interface HistoryEvent {
   pathHistory: Path[];
   undoHistory: Path[];
 }
-
 interface MessageEvent {
   username: string;
   message: string;
 }
-
 interface CursorEvent {
   id: string;
   x: number;
@@ -52,8 +45,11 @@ interface CursorEvent {
 
 const Whiteboard = () => {
   const { sessionId } = useParams<{ sessionId: string }>();
-  const { keycloak, initialized } = useKeycloak();
+  const { state } = useLocation();
   const navigate = useNavigate();
+
+  const username = state?.username || "Guest";
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
   const socketRef = useRef<Socket | null>(null);
@@ -73,15 +69,9 @@ const Whiteboard = () => {
   const [cursors, setCursors] = useState<{ [id: string]: Cursor }>({});
 
   useEffect(() => {
-    if (initialized && !keycloak.authenticated) navigate("/");
-  }, [initialized, keycloak, navigate]);
-
-  useEffect(() => {
-    if (!initialized || !keycloak.authenticated || !keycloak.token) return;
-
-    const username = keycloak.tokenParsed?.preferred_username || "Anonymous";
     const canvas = canvasRef.current;
     if (!canvas) return;
+
     canvas.width = window.innerWidth - 400;
     canvas.height = window.innerHeight - 60;
     const ctx = canvas.getContext("2d");
@@ -89,12 +79,11 @@ const Whiteboard = () => {
     ctxRef.current = ctx;
 
     const socket = io("http://localhost:5000", {
-      auth: { token: keycloak.token, username, sessionId },
+      auth: { username, sessionId },
     });
     socketRef.current = socket;
 
     socket.on("draw", (data: DrawEvent) => {
-      // Skip if this is the local user's own event
       const { x, y, prevX, prevY, color, size } = data;
       const ctx = ctxRef.current;
       if (!ctx) return;
@@ -106,7 +95,6 @@ const Whiteboard = () => {
       ctx.lineCap = "round";
       ctx.stroke();
 
-      // Update paths for remote users
       setPaths((prev) => {
         const last = prev[prev.length - 1];
         const newPoint = { x, y, color, size };
@@ -125,7 +113,6 @@ const Whiteboard = () => {
     });
 
     socket.on("clear-whiteboard", () => {
-      const ctx = ctxRef.current;
       if (!canvas || !ctx) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       setPaths([]);
@@ -188,19 +175,14 @@ const Whiteboard = () => {
       socket.disconnect();
       window.removeEventListener("resize", handleResize);
     };
-  }, [initialized, keycloak, sessionId]);
+  }, [username, sessionId]);
 
   const redraw = () => {
     const ctx = ctxRef.current;
     const canvas = canvasRef.current;
     if (!canvas || !ctx) return;
+    if (!drawState.active) ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Only clear the canvas if we're not actively drawing
-    if (!drawState.active) {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
-
-    // Draw all persisted paths
     paths.forEach((path) => {
       const points = path.points;
       if (points.length < 2) return;
@@ -213,7 +195,6 @@ const Whiteboard = () => {
       ctx.stroke();
     });
 
-    // Draw the current path being drawn (if any)
     if (drawState.active && drawState.path.length >= 2) {
       const points = drawState.path;
       ctx.beginPath();
@@ -261,10 +242,6 @@ const Whiteboard = () => {
     pdf.save("whiteboard.pdf");
   };
 
-  if (!initialized) return <div>Loading...</div>;
-
-  const username = keycloak.tokenParsed?.preferred_username || "Anonymous";
-
   return (
     <div className="d-flex flex-column" style={{ height: "100vh" }}>
       <TopBar
@@ -276,7 +253,7 @@ const Whiteboard = () => {
         className="d-flex"
         style={{
           width: "100vw",
-          height: "100vh", // Full screen
+          height: "100vh",
           overflow: "hidden",
         }}
       >

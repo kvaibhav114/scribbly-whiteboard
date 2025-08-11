@@ -14,11 +14,11 @@ const io = new Server(server, {
   },
 });
 
-// Simple auth middleware
+// No auth check — just require username and sessionId
 io.use((socket, next) => {
-  const { token, username, sessionId } = socket.handshake.auth;
-  if (!token || !username || !sessionId) {
-    return next(new Error("Missing auth data"));
+  const { username, sessionId } = socket.handshake.auth;
+  if (!username || !sessionId) {
+    return next(new Error("Missing username or session ID"));
   }
   socket.username = username;
   socket.sessionId = sessionId;

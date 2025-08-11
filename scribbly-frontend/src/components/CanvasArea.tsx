@@ -143,31 +143,34 @@ const Canvas = ({
     });
   };
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+useEffect(() => {
+  const canvas = canvasRef.current;
+  if (!canvas) return;
 
-    const resizeCanvas = () => {
-      const { offsetWidth, offsetHeight } = canvas;
-      canvas.width = offsetWidth;
-      canvas.height = offsetHeight;
+  const setCanvasSize = () => {
+    const parent = canvas.parentElement;
+    if (!parent) return;
 
-      const ctx = canvas.getContext("2d");
-      if (ctx) {
-        ctx.lineCap = "round";
-        ctx.strokeStyle = "#000";
-        ctx.lineWidth = 2;
-      }
+    canvas.width = parent.clientWidth;
+    canvas.height = parent.clientHeight;
 
-      ctxRef.current = ctx;
-      redraw(); // Redraw after resizing to restore the canvas state
-    };
+    const ctx = canvas.getContext("2d");
+    if (ctx) {
+      ctx.lineCap = "round";
+      ctx.strokeStyle = "#000";
+      ctx.lineWidth = 2;
+    }
 
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
+    ctxRef.current = ctx;
+    redraw();
+  };
 
-    return () => window.removeEventListener("resize", resizeCanvas);
-  }, [canvasRef, ctxRef, redraw]); // Add redraw as a dependency
+  setCanvasSize();
+  window.addEventListener("resize", setCanvasSize);
+
+  return () => window.removeEventListener("resize", setCanvasSize);
+}, [canvasRef, ctxRef, redraw]);
+
 
   return (
     <div
