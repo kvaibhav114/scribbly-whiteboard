@@ -8,7 +8,7 @@ A real-time collaborative whiteboard built with **React**, **TypeScript**, **HTM
 
 ### Landing Page
 <!-- Add landing page screenshot here -->
-![Screenshot 2025-05-18 035443](https://github.com/user-attachments/assets/d4388aa7-39e8-433a-b409-2c9e905f3b8e)
+![image](https://github.com/user-attachments/assets/21b00aa6-3844-4115-939a-329c8a00740d)
 
 
 ### Authentication
