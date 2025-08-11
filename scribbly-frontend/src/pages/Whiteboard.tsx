@@ -78,7 +78,7 @@ const Whiteboard = () => {
     if (!ctx) return;
     ctxRef.current = ctx;
 
-    const socket = io("http://localhost:5000", {
+    const socket = io("https://scribbly-whiteboard.onrender.com", {
       auth: { username, sessionId },
     });
     socketRef.current = socket;

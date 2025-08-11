@@ -4,12 +4,12 @@ const { Server } = require("socket.io");
 const cors = require("cors");
 
 const app = express();
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(cors({ origin: "https://scribbly-whiteboard-lbwvvtb58-kvaibhav114s-projects.vercel.app" }));
 
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://scribbly-whiteboard-lbwvvtb58-kvaibhav114s-projects.vercel.app",
     methods: ["GET", "POST"],
   },
 });
