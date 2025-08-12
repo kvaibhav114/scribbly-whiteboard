@@ -4,12 +4,18 @@ const { Server } = require("socket.io");
 const cors = require("cors");
 
 const app = express();
-app.use(cors({ origin: "https://scribbly-whiteboard-lbwvvtb58-kvaibhav114s-projects.vercel.app" }));
+app.use(
+  cors({
+    origin: "https://scribbly-whiteboard.vercel.app/", // Your Vercel frontend URL
+    methods: ["GET", "POST"],
+    credentials: true,
+  })
+);
 
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "https://scribbly-whiteboard-lbwvvtb58-kvaibhav114s-projects.vercel.app",
+    origin: "https://scribbly-whiteboard.vercel.app/",
     methods: ["GET", "POST"],
   },
 });
