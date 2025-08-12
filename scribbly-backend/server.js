@@ -6,7 +6,7 @@ const cors = require("cors");
 const app = express();
 app.use(
   cors({
-    origin: "https://scribbly-whiteboard.vercel.app/", // Your Vercel frontend URL
+    origin: "https://scribbly-whiteboard.vercel.app", // Your Vercel frontend URL
     methods: ["GET", "POST"],
     credentials: true,
   })
@@ -15,7 +15,7 @@ app.use(
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "https://scribbly-whiteboard.vercel.app/",
+    origin: "https://scribbly-whiteboard.vercel.app",
     methods: ["GET", "POST"],
   },
 });
